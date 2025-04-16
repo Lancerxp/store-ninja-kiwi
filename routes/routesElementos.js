@@ -42,8 +42,8 @@ router.post('/', async (req, res) => {
 // Leer todos
 router.get('/', async (req, res) => {
     try {
-        const bloons = await Bloon.find();
-        res.json(bloons);
+        const productos = await Bloon.find();
+        res.json(productos);
     } catch (err) {
         res.status(500).json({ mensaje: err.message });
     }

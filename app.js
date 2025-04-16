@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const bloonRoutes = require('./routes/routesElementos'); 
 const mongoose = require('mongoose');
 
 const app = express();
@@ -8,20 +7,16 @@ app.use(cors());
 app.use(express.json());
 
 // Conexión a MongoDB
-const mongoURI = 'mongodb://localhost:27017/ninja_kiwi'; 
-
-mongoose.connect(mongoURI, {
+mongoose.connect('mongodb://localhost:27017/ninja_kiwi', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('Conexión exitosa a MongoDB'))
-.catch(err => console.error('Error de conexión a MongoDB:', err));
+.then(() => console.log('Conectado a MongoDB'))
+.catch(err => console.error('Error de conexión:', err));
 
-// Ruta base para la API
-app.use('/api/bloonstd', bloonRoutes); 
+// Rutas para MongoDB
+const productoRouter = require('./routes/productos'); // Crea este archivo
+app.use('/api/bloonstd', productoRouter);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
-
-
-
+app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));

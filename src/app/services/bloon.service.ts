@@ -3,44 +3,42 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Bloon {
-  _id?: string;
   codigo: string;
   descripcion_del_codigo: string;
   precio: number;
-  talla: string;
+  talla: string | null;
   color: string;
   cantidad: number;
   tipo_de_producto: string;
   imagen: string;
-  fechaIngreso?: Date;
+  fecha_ingreso: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class BloonService {
-  private apiUrl = 'http://localhost:3000/api/bloonstd';
+  private apiUrl = 'http://localhost:3000/productos'; // Ruta al servidor JSON
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Bloon[]> {
-    return this.http.get<Bloon[]>(this.apiUrl);
+    return this.http.get<Bloon[]>(this.apiUrl); // Solicitud GET para obtener todos los productos
   }
 
-  getById(id: string): Observable<Bloon> {
-    return this.http.get<Bloon>(`${this.apiUrl}/${id}`);
+  getById(codigo: string): Observable<Bloon> {
+    return this.http.get<Bloon>(`${this.apiUrl}/${codigo}`); // Solicitud GET para obtener un producto por código
   }
 
   create(bloon: Bloon): Observable<Bloon> {
-    return this.http.post<Bloon>(this.apiUrl, bloon);
+    return this.http.post<Bloon>(this.apiUrl, bloon); // Solicitud POST para crear un nuevo producto
   }
 
-  update(id: string, bloon: Bloon): Observable<Bloon> {
-    return this.http.put<Bloon>(`${this.apiUrl}/${id}`, bloon);
+  update(codigo: string, bloon: Bloon): Observable<Bloon> {
+    return this.http.put<Bloon>(`${this.apiUrl}/${codigo}`, bloon); // Solicitud PUT para actualizar un producto
   }
 
-  delete(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  delete(codigo: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${codigo}`); // Solicitud DELETE para eliminar un producto
   }
 }
-

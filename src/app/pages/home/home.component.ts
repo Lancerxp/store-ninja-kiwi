@@ -1,52 +1,66 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { BloonService, Bloon } from '../../services/bloon.service';
+import { CommonModule } from '@angular/common'; // Importar CommonModule para pipes
+import { BloonService } from '../../services/bloon.service';
+
+interface Bloon {
+  codigo: string;
+  descripcion_del_codigo: string;
+  precio: number;
+  talla: string | null;
+  color: string;
+  cantidad: number;
+  tipo_de_producto: string;
+  imagen: string;
+  fecha_ingreso: string;
+}
 
 @Component({
   selector: 'app-home',
+  standalone: true, // Usando componentes independientes
+  imports: [CommonModule], // Importar CommonModule aquí para pipes
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, HttpClientModule]
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  productos: Bloon[] = []; // Array original con todos los productos
-  productosFiltrados: Bloon[] = []; // Array para los resultados filtrados
-  terminoBusqueda = '';
+  productos: Bloon[] = [];
 
-  constructor(private productoService: BloonService) {}
+  constructor(private bloonService: BloonService) {}
 
   ngOnInit(): void {
-    this.obtenerProductos();
+    this.cargarProductos();
   }
 
-  obtenerProductos(): void {
-    this.productoService.getAll().subscribe((productos) => {
-      this.productos = productos; // Guarda todos los productos en el array original
-      this.productosFiltrados = productos; // Inicializa los productos filtrados con todos los productos
+  cargarProductos(): void {
+    this.bloonService.getAll().subscribe({
+      next: (data) => {
+        this.productos = data;
+        // Asegurar que todas las imágenes tengan URL completa
+        this.productos.forEach(p => {
+          if (!p.imagen.startsWith('http')) {
+            p.imagen = this.getImageUrl(p.imagen);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar productos:', err);
+      }
     });
   }
 
-  buscar(): void {
-    const termino = this.terminoBusqueda.toLowerCase();
-    this.productosFiltrados = this.productos.filter(producto =>
-      producto.descripcion_del_codigo.toLowerCase().includes(termino)
-    );
+  private getImageUrl(path: string): string {
+    // Si es una ruta local, convertirla a URL completa
+    if (path.startsWith('assets/')) {
+      return `${window.location.origin}/${path}`;
+    }
+    return `http://localhost:3000/${path.replace('public/', '')}`;
   }
 
-  resetBusqueda(): void {
-    this.productosFiltrados = [...this.productos]; // Copia todos los productos al array filtrado
-    this.terminoBusqueda = ''; // Limpia el término de búsqueda
+  handleImageError(producto: Bloon): void {
+    producto.imagen = `${window.location.origin}/assets/imgs/default-placeholder.png`;
   }
 
-  agregarProducto(): void {
-    console.log('Agregar producto');
-  }
-
-  verDetalle(id: string): void {
-    console.log('Ver detalle del producto con ID:', id);
+  verDetalle(codigo: string): void {
+    console.log('Ver detalle del producto:', codigo);
+    // Implementa tu lógica de navegación aquí
   }
 }

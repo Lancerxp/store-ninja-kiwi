@@ -1,15 +1,21 @@
-<div class="contenedor-busqueda">
-  <input type="text" [(ngModel)]="terminoBusqueda" placeholder="Buscar productos..." />
-  <button (click)="buscar()">Buscar</button>
-  <button (click)="resetBusqueda()">Restablecer</button>
-  <button (click)="agregarProducto()">Agregar Artículo</button>
-</div>
-
 <div class="contenedor-productos">
-  <div class="tarjeta-producto" *ngFor="let producto of productosFiltrados">
-    <img [src]="producto.imagen" alt="{{ producto.descripcion_del_codigo }}" />
+  <!-- Mensaje cuando no hay productos -->
+  <div *ngIf="productos.length === 0" class="mensaje-sin-productos">
+    <p>No hay productos disponibles.</p>
+  </div>
+
+  <!-- Lista de productos -->
+  <div class="tarjeta-producto" *ngFor="let producto of productos">
+    <img 
+      [src]="producto.imagen" 
+      [alt]="producto.descripcion_del_codigo" 
+      class="imagen-producto"
+      (error)="handleImageError(producto)"
+    />
     <h3>{{ producto.descripcion_del_codigo }}</h3>
-    <p>Precio: {{ producto.precio | currency }}</p>
-    <button (click)="verDetalle(producto._id ?? '')">Escoger Artículo</button>
+    <p>Precio: {{ producto.precio | currency:'USD':'symbol':'1.2-2' }}</p>
+    <p>Color: {{ producto.color }}</p>
+    <p>Cantidad: {{ producto.cantidad }}</p>
+    <button (click)="verDetalle(producto.codigo)">Ver Detalle</button>
   </div>
 </div>

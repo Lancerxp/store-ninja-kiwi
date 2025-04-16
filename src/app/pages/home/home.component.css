@@ -70,10 +70,16 @@
     margin-top: 10px;
 }
 
+.contenedor-busqueda,
+.contenedor-productos{
+  max-width: 1200px;
+  margin: 0 auto; /* Centra el contenedor en la página */
+  padding: 0 20px; /* Espacio interno */
+}
 /* Estilos añadidos */
 .contenedor-busqueda {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
