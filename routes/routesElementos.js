@@ -8,6 +8,7 @@ router.post('/', async (req, res) => {
     try {
 
         const { 
+            _id,
             codigo,
             descripcion_del_codigo,
             precio,
@@ -20,6 +21,7 @@ router.post('/', async (req, res) => {
         } = req.body;
 
         const nuevoBloon = new Bloon({
+            _id,
             codigo,
             descripcion_del_codigo,
             precio,

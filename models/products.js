@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const bloonstdSchema = new mongoose.Schema({
+    _id: { type: String, required: true },
     codigo: { type: String, required: true },
     descripcion_del_codigo: { type: String, required: true },
     precio: { type: Number, required: true },

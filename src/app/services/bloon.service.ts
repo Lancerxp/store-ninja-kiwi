@@ -31,7 +31,6 @@ export class BloonService {
     return this.http.get<Bloon>(`${this.apiUrl}/${id}`);
   }
 
-  // (Opcional si quieres añadir más funcionalidades)
   create(bloon: Bloon): Observable<Bloon> {
     return this.http.post<Bloon>(this.apiUrl, bloon);
   }

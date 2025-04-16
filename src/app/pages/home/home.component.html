@@ -1,0 +1,14 @@
+<div class="contenedor-busqueda">
+  <input type="text" [(ngModel)]="terminoBusqueda" placeholder="Buscar productos..." />
+  <button (click)="buscar()">Buscar</button>
+  <button (click)="agregarProducto()">Agregar Artículo</button>
+</div>
+
+<div class="contenedor-productos">
+  <div class="tarjeta-producto" *ngFor="let producto of productosFiltrados">
+    <img [src]="producto.imagen" alt="{{ producto.descripcion_del_codigo }}" />
+    <h3>{{ producto.descripcion_del_codigo }}</h3>
+    <p>Precio: {{ producto.precio | currency }}</p>
+    <button (click)="verDetalle(producto._id ?? '')">Escoger Artículo</button>
+  </div>
+</div>
