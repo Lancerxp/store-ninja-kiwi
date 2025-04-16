@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="productos-grid">
+    <div class="card" *ngFor="let producto of productos">
+      <img [src]="producto.imagen" alt="Imagen del producto" />
+      <div class="card-content">
+        <h3>{{ producto.codigo }}</h3>
+        <p>{{ producto.descripcion_del_codigo }}</p>
+        <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+        <p><strong>Talla:</strong> {{ producto.talla }}</p>
+        <p><strong>Color:</strong> {{ producto.color }}</p>
+        <p><strong>Cantidad:</strong> {{ producto.cantidad }}</p>
+        <p><strong>Tipo:</strong> {{ producto.tipo_de_producto }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Nuevo contenido añadido -->
+<div class="productos-container">
+  <div class="producto-card" *ngFor="let producto of productos">
+    <img [src]="producto.imagen" alt="{{ producto.nombre }}" />
+    <h3>{{ producto.nombre }}</h3>
+    <p>{{ producto.descripcion }}</p>
+    <p class="precio">${{ producto.precio }}</p>
+  </div>
+</div>
